@@ -1,6 +1,7 @@
 
 public class Generator {  //Generator already has the solution, so it will remember it.
 	int[] mat[]; //Need to modify generator to avoid plagiarism
+	int[] qmat[];
     int N; // number of columns/rows.
     int SRN; // square root of N
     int K; // No. Of missing digits
@@ -16,6 +17,7 @@ public class Generator {  //Generator already has the solution, so it will remem
         SRN = SRNd.intValue();
  
         mat = new int[N][N];
+        qmat=new int[N][N];
     }
  
     // Sudoku Generator
@@ -156,6 +158,7 @@ public class Generator {  //Generator already has the solution, so it will remem
     public void removeKDigits()
     {
         int count = K;
+        qmat=mat.clone();
         while (count != 0)
         {
             int cellId = randomGenerator(N*N)-1;
@@ -174,18 +177,19 @@ public class Generator {  //Generator already has the solution, so it will remem
                 mat[i][j] = 0;
             }
         }
+        new Grid(qmat,N);
     }
  
     // Print sudoku
-    public void printSudoku()
-    {
-        for (int i = 0; i<N; i++)
-        {
-            for (int j = 0; j<N; j++)
-                System.out.print(mat[i][j] + " ");
-            System.out.println();
-        }
-        System.out.println();
-    }
+    //public void printSudoku()
+    //{
+      //  for (int i = 0; i<N; i++)
+        //{
+         //   for (int j = 0; j<N; j++)
+         //       System.out.print(mat[i][j] + " ");
+           // System.out.println();
+        //}
+        //System.out.println();
+    //}
 
 }
