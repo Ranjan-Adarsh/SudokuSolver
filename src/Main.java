@@ -1,14 +1,11 @@
-import java.util.*;
+//Make a menu type in main method.
 public class Main {
-
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Scanner sc=new Scanner(System.in);
-		System.out.println("Just enter a number below");
-		int a=sc.nextInt();
-		int b=sc.nextInt();
-		System.out.println("hii there "+a);
-		sc.close();
+		int N = 9, K = 50; //K decides the level of difficulty
+        Generator sudoku = new Generator(N, K);
+        sudoku.fillValues();
+        sudoku.printSudoku();	
 	}
 
 }
