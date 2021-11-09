@@ -1,6 +1,6 @@
 //This will receive the Sudoku as an input and make a Sudoku like Grid Everytime.
 //Better will be to replace 0 with dots in this.
-//Fix the indentation such that it works for any grid.
+//Fix the indentation such that it works for any grid.This doesn't works for two digit number cause they have discrepency.
 public class Grid {
 	private int mat[][];
 	private int N;
@@ -32,7 +32,7 @@ public class Grid {
         	{
         		dashInsertor();
         	}
-        	System.out.println("");
+        	System.out.println("\t");
             for (int j = 0; j<N; j++)
             {
             	if(j%SRN==0)
@@ -44,8 +44,9 @@ public class Grid {
             }
             System.out.println("|");
         }
-        //System.out.println();
         dashInsertor();
+        System.out.println();
+        
     }
 
 }
