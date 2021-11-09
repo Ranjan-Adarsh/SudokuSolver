@@ -1,3 +1,4 @@
+import java.util.Arrays;
 
 public class Generator {  //Generator already has the solution, so it will remember it.
 	int[] mat[]; //Need to modify generator to avoid plagiarism
@@ -11,15 +12,22 @@ public class Generator {  //Generator already has the solution, so it will remem
     {
         this.N = N;
         this.K = K;
- 
         // Compute square root of N
         Double SRNd = Math.sqrt(N);
         SRN = SRNd.intValue();
- 
         mat = new int[N][N];
         qmat=new int[N][N];
     }
  
+    public int[][] cloneArray(int [][]src)
+    {
+    	int dest[][]=new int[src.length][];
+    	for(int i=0;i<src.length;i++)
+    	{
+    		dest[i]=Arrays.copyOf(src[i],src[i].length);
+    	}
+    	return dest;
+    }
     // Sudoku Generator
     public void fillValues()
     {
@@ -28,7 +36,8 @@ public class Generator {  //Generator already has the solution, so it will remem
  
         // Fill remaining blocks
         fillRemaining(0, SRN);
- 
+        //Cloning the made up sudoku
+        qmat=cloneArray(mat);
         // Remove Randomly K digits to make game
         removeKDigits();
     }
@@ -158,7 +167,6 @@ public class Generator {  //Generator already has the solution, so it will remem
     public void removeKDigits()
     {
         int count = K;
-        qmat=mat.clone();
         while (count != 0)
         {
             int cellId = randomGenerator(N*N)-1;
@@ -177,19 +185,7 @@ public class Generator {  //Generator already has the solution, so it will remem
                 mat[i][j] = 0;
             }
         }
-        new Grid(qmat,N);
+        new Grid(mat,N);
     }
- 
-    // Print sudoku
-    //public void printSudoku()
-    //{
-      //  for (int i = 0; i<N; i++)
-        //{
-         //   for (int j = 0; j<N; j++)
-         //       System.out.print(mat[i][j] + " ");
-           // System.out.println();
-        //}
-        //System.out.println();
-    //}
 
 }
