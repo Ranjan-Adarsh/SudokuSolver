@@ -1,4 +1,7 @@
-import java.util.Arrays;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
 
 public class Generator {  //Generator already has the solution, so it will remember it.
 	int[] mat[]; //Need to modify generator to avoid plagiarism
@@ -27,6 +30,26 @@ public class Generator {  //Generator already has the solution, so it will remem
     		dest[i]=Arrays.copyOf(src[i],src[i].length);
     	}
     	return dest;
+    }
+    public void choice()
+    {
+    	Scanner sc=new Scanner(System.in);
+    	System.out.println("1. Generate Sudoku automatically.");
+    	System.out.println("2. Make a custom Sudoku.");
+    	System.out.println("Enter your Choice: ");
+    	int ch=sc.nextInt();
+    	if(ch==1)
+    		fillValues();
+    	else if(ch==2)
+			try {
+				inputElements();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		else
+    		System.out.println("Invalid Input");
+    	sc.close();
     }
     // Sudoku Generator
     public void fillValues()
@@ -186,6 +209,52 @@ public class Generator {  //Generator already has the solution, so it will remem
             }
         }
         new Grid(mat,N);
+        System.out.println("\n\nGrid prepared Successfully");
+    }
+    public void inputElements() throws IOException
+    {
+    	String s;
+    	int inputMat[];
+    	inputMat=new int[3];
+    	int p;
+    	StringTokenizer st;
+    	System.out.println("Enter the number of elements you want to fill in half-Sudoku: ");
+    	Scanner sc=new Scanner(System.in);
+    	//BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+    	int n=sc.nextInt();
+    	sc.nextLine();
+    	System.out.println("Now enter the elements in format 'Row Column Value'");
+    	while(n>0)
+    	{
+    		s=sc.nextLine();
+    		s=s.trim();
+    		System.out.println(s);
+    		st=new StringTokenizer(s);
+    		System.out.println(st);
+    		if(st.countTokens()==3)
+    		{
+    			p=0;
+    			while(st.hasMoreTokens())
+    			{
+    				inputMat[p]=Integer.parseInt(st.nextToken());
+    				p++;
+    			}
+    			this.mat[inputMat[0]][inputMat[1]]=inputMat[2];
+    			System.out.println(this.mat[inputMat[0]][inputMat[1]]);		
+    		}
+    		else
+    			System.out.println("Invalid Input");
+    	n--;
+    	}
+    	VerifySudoku v=new VerifySudoku();
+    	if(v.CheckValidityOfSudoku(mat, N))
+    	{
+    		System.out.println("Half-Sudoku is valid.\n\n");
+    		new Grid(mat,N);
+    	}
+    	else
+    		System.out.println("Invalid Sudoku");
+    	sc.close();
     }
 
 }
