@@ -45,7 +45,7 @@ public class Grid {
             System.out.println("|");
         }
         dashInsertor();
-        System.out.println();
+        //System.out.println();
         
     }
 

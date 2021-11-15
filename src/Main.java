@@ -9,16 +9,16 @@ public class Main {
 		// TODO Auto-generated method stub
 		Scanner sc=new Scanner(System.in);
 		int N,K;
+		String i;
 		while(true)
-		{
-			
-		System.out.println("\nYo mate, Welcome to Sudoku. This will be a fun challenge for you. Ready for some action?");
-		System.out.println("Press 1 to begin a new game. Press any other key to quit!");
-		System.out.flush();
-			String i=sc.next(); //Why is this causing problem.
+		{	
+			System.out.println("\nYo mate, Welcome to Sudoku. This will be a fun challenge for you. Ready for some action?");
+			System.out.println("Press 1 to begin a new game. Press any other key to quit!");
+			i=sc.nextLine();
+			i=i.trim();
 			if(i.equals("1"))
 			{
-				System.out.println(ANSI_YELLOW+"Kindly Select the difficulty level!"+ANSI_RESET);
+				System.out.println("Kindly Select the difficulty level!");
 				System.out.println("\tEasy\t\t1\n\tMedium\t\t2\n\tDifficult\t3\n\tInsane\t\t4");
 				K=sc.nextInt();
 				switch(K) {
@@ -38,9 +38,9 @@ public class Main {
 						break;
 				}	
 				N = 9; //N decides the NXN Sudoku
-				Solver sudoku=new Solver(N,K);
-				sudoku.fillValues();
-				sudoku.driver();
+				Generator sudoku=new Generator(N,K);
+				sudoku.choice();
+				//sc.close();
 				}
 			else {
 				sc.close();

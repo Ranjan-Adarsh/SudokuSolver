@@ -120,9 +120,7 @@ public class Solver extends Generator{
 			
 		}
 		
-	}
-	
-		
-	}
+	}		
+}
 
 
