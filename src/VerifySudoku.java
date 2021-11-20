@@ -8,6 +8,7 @@ public class VerifySudoku {
 		this.order=order;
 		SRN=(int)Math.sqrt(order);
 		this.mat=new int[order][order];
+		int val;
 		for(int i=0;i<order;i++)
 		{
 			for(int j=0;j<order;j++)
@@ -18,11 +19,30 @@ public class VerifySudoku {
 		{
 			for(int j=0;j<order;j++)
 			{
-				if((unUsedInRow(i,this.mat[i][j]) && unUsedInCol(j,this.mat[i][j]) && unUsedInBox(i-i%SRN,j-j%SRN,this.mat[i][j])) == false)
+				val=this.mat[i][j];
+				this.mat[i][j]=0;
+				if((unUsedInRow(i,val) && unUsedInCol(j,val) && unUsedInBox(i-i%SRN,j-j%SRN,val)) == false)
 					return false;
+				this.mat[i][j]=val;
 			}
 		}
 		return true;	
+	}
+	
+	boolean CheckValidityOfSudoku(int mat[][],int order,int row, int col,int val)
+	{
+		this.order=order;
+		SRN=(int)Math.sqrt(order);
+		this.mat=new int[order][order];
+		for(int i=0;i<order;i++)
+		{
+			for(int j=0;j<order;j++)
+			this.mat[i][j]=mat[i][j];
+		}
+		
+		if((unUsedInRow(row,val) && unUsedInCol(col,val) && unUsedInBox(row-row%SRN,col-col%SRN,val)) == false)
+			return false;
+		return true;
 	}
 	boolean unUsedInBox(int rowStart, int colStart, int num)
     {

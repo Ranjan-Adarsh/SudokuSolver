@@ -4,7 +4,7 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 public class Generator {  //Generator already has the solution, so it will remember it.
-	int[] mat[]; //Need to modify generator to avoid plagiarism
+	int[] mat[]; 
 	int[] qmat[];
     int N; // number of columns/rows.
     int SRN; // square root of N
@@ -31,7 +31,7 @@ public class Generator {  //Generator already has the solution, so it will remem
     	}
     	return dest;
     }
-    public void choice()
+    public int[][] choice()
     {
     	Scanner sc=new Scanner(System.in);
     	System.out.println("1. Generate Sudoku automatically.");
@@ -39,7 +39,9 @@ public class Generator {  //Generator already has the solution, so it will remem
     	System.out.println("Enter your Choice: ");
     	int ch=sc.nextInt();
     	if(ch==1)
+    	{
     		fillValues();
+    	}
     	else if(ch==2)
 			try {
 				inputElements();
@@ -48,8 +50,12 @@ public class Generator {  //Generator already has the solution, so it will remem
 				e.printStackTrace();
 			}
 		else
+		{
     		System.out.println("Invalid Input");
+    		mat=null;
+		}
     	sc.close();
+    	return mat;
     }
     // Sudoku Generator
     public void fillValues()
@@ -228,9 +234,9 @@ public class Generator {  //Generator already has the solution, so it will remem
     	{
     		s=sc.nextLine();
     		s=s.trim();
-    		System.out.println(s);
+    		//System.out.println(s);
     		st=new StringTokenizer(s);
-    		System.out.println(st);
+    		//System.out.println(st);
     		if(st.countTokens()==3)
     		{
     			p=0;
@@ -240,7 +246,7 @@ public class Generator {  //Generator already has the solution, so it will remem
     				p++;
     			}
     			this.mat[inputMat[0]][inputMat[1]]=inputMat[2];
-    			System.out.println(this.mat[inputMat[0]][inputMat[1]]);		
+    			//System.out.println(this.mat[inputMat[0]][inputMat[1]]);		
     		}
     		else
     			System.out.println("Invalid Input");
@@ -253,7 +259,10 @@ public class Generator {  //Generator already has the solution, so it will remem
     		new Grid(mat,N);
     	}
     	else
+    	{
     		System.out.println("Invalid Sudoku");
+    		mat=null;
+    	}
     	sc.close();
     }
 

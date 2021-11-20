@@ -38,8 +38,17 @@ public class Main {
 						break;
 				}	
 				N = 9; //N decides the NXN Sudoku
+				int[][] board =new int[N][N];
 				Generator sudoku=new Generator(N,K);
-				sudoku.choice();
+				board=sudoku.choice();
+				if(board!=null)
+				{
+					Solver s=new Solver();
+					if(s.solveSudoku(board, N))
+					{
+						new Grid(board,N);
+					}
+				}
 				//sc.close();
 				}
 			else {
