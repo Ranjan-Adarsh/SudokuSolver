@@ -44,9 +44,13 @@ public class Main {
 				if(board!=null)
 				{
 					Solver s=new Solver();
-					if(s.solveSudoku(board, N))
+					s.solveSudoku(board, N);
+					if(s.counter==1){
+						new Grid(s.qmat,N);
+					}
+					else
 					{
-						new Grid(board,N);
+						System.out.println("\n"+s.counter);
 					}
 				}
 				//sc.close();

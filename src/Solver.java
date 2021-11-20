@@ -1,11 +1,18 @@
-import java.util.*;
+
 public class Solver extends VerifySudoku
 {
-	public boolean solveSudoku(int[][] mat,int order)
+	int counter=0;
+	boolean hasNoEmptyCell=true;
+	int qmat[][];
+	Solver()
+	{
+		qmat=new int[9][9];
+	}
+	public void solveSudoku(int[][] mat,int order)
 	{
 		int row=-1;
 		int col=-1;
-		boolean hasNoEmptyCell=true;
+		hasNoEmptyCell=true;
 		for(int i=0;i<order;i++)
 		{
 			for(int j=0;j<order;j++)
@@ -21,23 +28,26 @@ public class Solver extends VerifySudoku
 			if(!hasNoEmptyCell)
 				break;
 			}
-		if(hasNoEmptyCell)
-			return true;  //
+		if(hasNoEmptyCell)  //This is the condition from where the recursion starts returning.
+		{
+			counter+=1;
+			for(int i=0;i<order;i++)
+			{
+				for(int j=0;j<order;j++)
+					qmat[i][j]=mat[i][j];
+			}
+			return;
+		}
 		for(int i=1;i<=order;i++)
 		{
 			if(CheckValidityOfSudoku(mat,order,row,col,i))
 			{
 				mat[row][col]=i;
-				if(solveSudoku(mat,order))
-				{
-					return true;
-				}
-				else
-				{
-					mat[row][col]=0;
-				}
+				solveSudoku(mat,order);
+				  //This true will be executed only when the recursion starts returning 
+				mat[row][col]=0;
 			}
 		}
-		return false;
+		return;
 		}
 }
