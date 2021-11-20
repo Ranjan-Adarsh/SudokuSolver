@@ -18,7 +18,7 @@ public class VerifySudoku {
 		{
 			for(int j=0;j<order;j++)
 			{
-				if(unUsedInRow(i,this.mat[i][j]) && unUsedInCol(j,this.mat[i][j]) && unUsedInBox(i-i%SRN,j-j%SRN,this.mat[i][j]) == false)
+				if((unUsedInRow(i,this.mat[i][j]) && unUsedInCol(j,this.mat[i][j]) && unUsedInBox(i-i%SRN,j-j%SRN,this.mat[i][j])) == false)
 					return false;
 			}
 		}
