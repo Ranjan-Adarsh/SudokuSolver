@@ -9,13 +9,24 @@ public class Generator {  //Generator already has the solution, so it will remem
     int N; // number of columns/rows.
     int SRN; // square root of N
     int K; // No. Of missing digits
+    Scanner sc;
  
     // Constructor
-    Generator(int N, int K)
+    Generator(int N, int K,Scanner sc)
     {
         this.N = N;
         this.K = K;
+        this.sc=sc;
         // Compute square root of N
+        Double SRNd = Math.sqrt(N);
+        SRN = SRNd.intValue();
+        mat = new int[N][N];
+        qmat=new int[N][N];
+    }
+    Generator(int N,int K)
+    {
+    	this.N = N;
+        this.K = K;
         Double SRNd = Math.sqrt(N);
         SRN = SRNd.intValue();
         mat = new int[N][N];
@@ -33,7 +44,6 @@ public class Generator {  //Generator already has the solution, so it will remem
     }
     public int[][] choice()
     {
-    	Scanner sc=new Scanner(System.in);
     	System.out.println("1. Generate Sudoku automatically.");
     	System.out.println("2. Make a custom Sudoku.");
     	System.out.println("Enter your Choice: ");
@@ -54,7 +64,6 @@ public class Generator {  //Generator already has the solution, so it will remem
     		System.out.println("Invalid Input");
     		mat=null;
 		}
-    	sc.close();
     	return mat;
     }
     // Sudoku Generator
@@ -225,18 +234,14 @@ public class Generator {  //Generator already has the solution, so it will remem
     	int p;
     	StringTokenizer st;
     	System.out.println("Enter the number of elements you want to fill in half-Sudoku: ");
-    	Scanner sc=new Scanner(System.in);
-    	//BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
     	int n=sc.nextInt();
     	sc.nextLine();
     	System.out.println("Now enter the elements in format 'Row Column Value'");
-    	while(n>0)
+    	while(n>0 && n<=81)
     	{
     		s=sc.nextLine();
     		s=s.trim();
-    		//System.out.println(s);
     		st=new StringTokenizer(s);
-    		//System.out.println(st);
     		if(st.countTokens()==3)
     		{
     			p=0;
@@ -245,8 +250,7 @@ public class Generator {  //Generator already has the solution, so it will remem
     				inputMat[p]=Integer.parseInt(st.nextToken());
     				p++;
     			}
-    			this.mat[inputMat[0]][inputMat[1]]=inputMat[2];
-    			//System.out.println(this.mat[inputMat[0]][inputMat[1]]);		
+    			this.mat[inputMat[0]][inputMat[1]]=inputMat[2];		
     		}
     		else
     			System.out.println("Invalid Input");
@@ -263,7 +267,6 @@ public class Generator {  //Generator already has the solution, so it will remem
     		System.out.println("Invalid Sudoku");
     		mat=null;
     	}
-    	sc.close();
     }
 
 }

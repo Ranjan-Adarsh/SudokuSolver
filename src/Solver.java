@@ -44,7 +44,7 @@ public class Solver extends VerifySudoku
 			{
 				mat[row][col]=i;
 				solveSudoku(mat,order);
-				  //This true will be executed only when the recursion starts returning 
+				  //This will be executed only when the recursion starts returning 
 				mat[row][col]=0;
 			}
 		}
