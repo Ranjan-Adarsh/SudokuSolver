@@ -2,8 +2,6 @@
 //import java.io.*;
 import java.util.*;
 public class Main {
-	public static final String ANSI_RESET="\u001B[0m";
-	 public static final String ANSI_YELLOW = "\u001B[33m";
 	 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -39,7 +37,7 @@ public class Main {
 					}
 					else
 					{
-						//new Grid(s.qmat,N);
+						new Grid(s.qmat,N);
 						System.out.println("\nNumber of solutions: "+s.counter);
 						sc.reset();
 					}

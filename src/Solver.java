@@ -8,8 +8,12 @@ public class Solver extends VerifySudoku
 	{
 		qmat=new int[9][9];
 	}
+	
+	// This is the backtracking algorithm for solving the Sudoku
+	//It also gives the number of Solutions of the half- Sudoku.
 	public void solveSudoku(int[][] mat,int order)
 	{
+		//initialising rows and columns with non-indexable variables
 		int row=-1;
 		int col=-1;
 		hasNoEmptyCell=true;
@@ -19,7 +23,7 @@ public class Solver extends VerifySudoku
 			{
 				if(mat[i][j]==0)
 				{
-					hasNoEmptyCell=false;
+					hasNoEmptyCell=false; //Means the matrix has an empty cell
 					row=i;
 					col=j;
 					break;
@@ -30,17 +34,22 @@ public class Solver extends VerifySudoku
 			}
 		if(hasNoEmptyCell)  //This is the condition from where the recursion starts returning.
 		{
+			//Counter will help to keep track of number of solutions
 			counter+=1;
+			//store the result in a matrix such that atleast one solution is present
 			for(int i=0;i<order;i++)
 			{
 				for(int j=0;j<order;j++)
+				{
+					//qmat is used for storing just one of the solutions of sudoku
 					qmat[i][j]=mat[i][j];
+				}
 			}
 			return;
 		}
 		for(int i=1;i<=order;i++)
 		{
-			if(CheckValidityOfSudoku(mat,order,row,col,i))
+			if(CheckValidityOfSudoku(mat,order,row,col,i)) //Calling the CheckValidityOfSudoku function since Solver extends VerifySudoku
 			{
 				mat[row][col]=i;
 				solveSudoku(mat,order);

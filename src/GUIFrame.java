@@ -1,10 +1,12 @@
+//This is the GUI FRame made using swing, not an optimised code since swing is relatively new to us
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
+import javax.swing.JTextArea;
 import java.awt.event.*;
 import javax.swing.JFrame;
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.*;
 public class GUIFrame {
 	
 	public void run(){
@@ -17,8 +19,11 @@ public class GUIFrame {
 		JButton sol=new JButton("Solve");
 		JButton gen=new JButton("Generate Auto");
 		JButton res=new JButton("Reset");
+		JButton fill=new JButton("Fill Sudoku");
 		Box box=Box.createVerticalBox();
 		box.add(gen);
+		box.add(Box.createVerticalStrut(10));
+		box.add(fill);
 		box.add(Box.createVerticalStrut(10));
 		box.add(sol);
 		box.add(Box.createVerticalStrut(10));
@@ -26,12 +31,23 @@ public class GUIFrame {
 		SudokuPanel.add(box);
 		SudokuBoard solved=new SudokuBoard();
 		SudokuPanel.add(solved);
+		JLabel a=new JLabel("Ouput Indicator");
+		JLabel b=new JLabel("Input Area");
 		final JTextField tf=new JTextField();
-		tf.setBounds(50,50, 150,20);
+		final JTextArea inp=new JTextArea();
+		tf.setBounds(520,250,150,20);
+		inp.setBounds(100,50, 150,550);
+		b.setBounds(100,20,100,20);
+		a.setBounds(520,230,100,20);
 		SudokuFrame.add(tf);
+		box.add(Box.createVerticalStrut(10));
+		SudokuFrame.add(b);
+		SudokuFrame.add(a);
+		SudokuFrame.add(inp);
 		SudokuFrame.add(SudokuPanel);
 		SudokuFrame.pack();
 		SudokuFrame.setVisible(true);
+		//SudokuFrame.setResizable(false);
 		int mat[]=new int[9];
 		int sendMat[][]=new int[9][9];
 		int getMat[][]=new int[9][9];
@@ -159,9 +175,64 @@ public class GUIFrame {
 							}
 						}
 						tf.setText("");
+						inp.setText("");
 					}
 					
 				});
+		
+		fill.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+			{
+				try {
+				String[] text=inp.getText().split("\\n");
+				int noOfRows=inp.getLineCount();
+				String[] line;
+				int r,c,v;
+				for(int i=0;i<9;i++)
+				{
+					for(int j=0;j<9;j++)
+					{
+						sendMat[i][j]=0;
+					}
+				}
+				for(int i=0;i<noOfRows;i++)
+				{
+					line=text[i].split(" ");
+					r=Integer.parseInt(line[0]);
+					c=Integer.parseInt(line[1]);
+					v=Integer.parseInt(line[2]);
+					sendMat[r][c]=v;
+					
+				}
+				VerifySudoku ver=new VerifySudoku();
+				if(ver.CheckValidityOfSudoku(sendMat, 9))
+				{
+				int SquareBox;
+				for(int i=0;i<9;i++)
+				{
+					for(int j=0;j<9;j++)
+					{
+						SquareBox=(i/3)*3+(j/3);
+						if(sendMat[i][j]==0)
+						{
+							ques.sudokuGridSquare[SquareBox].sudokuFields[(i%3)*3+(j%3)].setText("");
+						}
+						else
+							ques.sudokuGridSquare[SquareBox].sudokuFields[(i%3)*3+(j%3)].setText(Integer.toString(sendMat[i][j]));
+					}
+				}
+				}
+				else {
+					tf.setText("Invalid Sudoku");
+				}
+				
+			}
+				catch(Exception d)
+				{
+					tf.setText("Inavlid Sudoku");
+				}
+			}
+		});
 		
 		
 		

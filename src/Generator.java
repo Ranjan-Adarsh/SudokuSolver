@@ -3,7 +3,7 @@ import java.io.IOException;
 
 import java.util.*;
 
-public class Generator {  //Generator already has the solution, so it will remember it.
+public class Generator extends VerifySudoku {  //Generator already has the solution, so it will remember it.
 	int[] mat[]; 
 	int[] qmat[];
     int N; // number of columns/rows.
@@ -35,6 +35,7 @@ public class Generator {  //Generator already has the solution, so it will remem
  
     public int[][] cloneArray(int [][]src)
     {
+    	//Deep copy of an array wasn't being made so made this function
     	int dest[][]=new int[src.length][];
     	for(int i=0;i<src.length;i++)
     	{
@@ -56,7 +57,7 @@ public class Generator {  //Generator already has the solution, so it will remem
 			try {
 				inputElements();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				// TODO Auto-generated catch block, if an unknown error accurs it will trace it
 				e.printStackTrace();
 			}
 		else
@@ -66,31 +67,7 @@ public class Generator {  //Generator already has the solution, so it will remem
 		}
     	return mat;
     }
-    // Sudoku Generator
-    public void fillValues()
-    {
-        // Fill the diagonal of SRN x SRN matrices
-        fillDiagonal();
- 
-        // Fill remaining blocks
-        fillRemaining(0, SRN);
-        //Cloning the made up sudoku
-        qmat=cloneArray(mat);
-        // Remove Randomly K digits to make game
-        removeKDigits();
-    }
- 
-    // Fill the diagonal SRN number of SRN x SRN matrices
-    void fillDiagonal()
-    {
- 
-        for (int i = 0; i<N; i=i+SRN)
- 
-            // for diagonal box, start coordinates->i==j
-            fillBox(i, i);
-    }
- 
-    // Returns false if given 3 x 3 block contains num.
+ // Returns false if given 3 x 3 block contains num.
     boolean unUsedInBox(int rowStart, int colStart, int num)
     {
         for (int i = 0; i<SRN; i++)
@@ -100,40 +77,7 @@ public class Generator {  //Generator already has the solution, so it will remem
  
         return true;
     }
- 
-    // Fill a 3 x 3 matrix.
-    void fillBox(int row,int col)
-    {
-        int num;
-        for (int i=0; i<SRN; i++)
-        {
-            for (int j=0; j<SRN; j++)
-            {
-                do
-                {
-                    num = randomGenerator(N);
-                }
-                while (!unUsedInBox(row, col, num));
- 
-                mat[row+i][col+j] = num;
-            }
-        }
-    }
- 
-    // Random generator
-    int randomGenerator(int num)
-    {
-        return (int) Math.floor((Math.random()*num+1));
-    }
- 
-    // Check if safe to put in cell
-    boolean CheckIfSafe(int i,int j,int num)
-    {
-        return (unUsedInRow(i, num) &&
-                unUsedInCol(j, num) &&
-                unUsedInBox(i-i%SRN, j-j%SRN, num));
-    }
- 
+    
     // check in the row for existence
     boolean unUsedInRow(int i,int num)
     {
@@ -151,47 +95,108 @@ public class Generator {  //Generator already has the solution, so it will remem
                 return false;
         return true;
     }
+    
+ // Check if safe to put in cell
+    boolean CheckIfSafe(int i,int j,int num)
+    {
+        return (unUsedInRow(i, num) &&
+                unUsedInCol(j, num) &&
+                unUsedInBox(i-i%SRN, j-j%SRN, num));
+    }
+    // Sudoku Generator
+    public void fillValues()
+    {
+        // Fill the diagonal of SRN x SRN matrices
+    	//Since these diagonal box first filled won't have any conflicts
+        fillDiagonal();
+        // Fill remaining blocks
+        //After successful making of diagonal blocks
+        fillRemainingSudoku(0, SRN);
+        //Cloning the made up sudoku
+        qmat=cloneArray(mat);
+        // Remove Randomly K digits to make game
+        removeKDigits();
+    }
  
-    // A recursive function to fill remaining
-    // matrix
-    boolean fillRemaining(int i, int j)
+    // Fill the diagonal SRN number of SRN x SRN matrices
+    void fillDiagonal()
+    {
+ 
+        for (int i = 0; i<N; i=i+SRN)
+ 
+            // for boxes plced diagonally, start coordinates are i==j
+            fillBox(i, i);
+    }
+ 
+    
+ 
+    // Fill the 3 x 3 matrix of the Sudoku 9x9 matrix.
+    void fillBox(int row,int col)
+    {
+        int num;
+        for (int i=0; i<SRN; i++)
+        {
+            for (int j=0; j<SRN; j++)
+            {
+                do
+                {
+                    num = randomNumGenerator(N);
+                }
+                while (!unUsedInBox(row, col, num));
+ 
+                mat[row+i][col+j] = num;
+            }
+        }
+    }
+ 
+    // Random generator to get a random number used to automatically fill numbers in Sudoku and also to remove them
+    int randomNumGenerator(int num)
+    {
+        return (int) Math.floor((Math.random()*num+1));
+    }
+ 
+    // A recursive function to fill remaining matrix
+    boolean fillRemainingSudoku(int i, int j)
     {
         //  System.out.println(i+" "+j);
         if (j>=N && i<N-1)
-        {
+        {    
             i = i + 1;
             j = 0;
-        }
+        }     
+        //Check whether the Sudoku is completely filled
         if (i>=N && j>=N)
-            return true;
+            return true;     
  
         if (i < SRN)
         {
             if (j < SRN)
                 j = SRN;
         }
+        //Check for rows
         else if (i < N-SRN)
         {
             if (j==(int)(i/SRN)*SRN)
                 j =  j + SRN;
         }
+        //Condition for columns
         else
-        {
+        {     
             if (j == N-SRN)
-            {
+            {         
                 i = i + 1;
                 j = 0;
                 if (i>=N)
                     return true;
-            }
-        }
- 
+            }    
+        }     
+        //Checking whether it is safe to put a number in that cell
         for (int num = 1; num<=N; num++)
         {
             if (CheckIfSafe(i, j, num))
             {
                 mat[i][j] = num;
-                if (fillRemaining(i, j+1))
+                if (fillRemainingSudoku(i, j+1))
                     return true;
  
                 mat[i][j] = 0;
@@ -202,18 +207,18 @@ public class Generator {  //Generator already has the solution, so it will remem
  
     // Remove the K no. of digits to
     // complete game
-    public void removeKDigits()
+    public void removeKDigits()     
     {
         int count = K;
-        while (count != 0)
+        while (count != 0)     
         {
-            int cellId = randomGenerator(N*N)-1;
+            int cellId = randomNumGenerator(N*N)-1;
  
             // System.out.println(cellId);
             // extract coordinates i  and j
             int i = (cellId/N);
             int j = cellId%9;
-            if (j != 0)
+            if (j != 0)    
                 j = j - 1;
  
             // System.out.println(i+" "+j);
@@ -226,7 +231,7 @@ public class Generator {  //Generator already has the solution, so it will remem
         new Grid(mat,N);
         System.out.println("\n\nGrid prepared Successfully");
     }
-    public void inputElements() throws IOException
+    public void inputElements() throws IOException  //FOr taking manual inputs from user
     {
     	String s;
     	int inputMat[];
@@ -252,8 +257,12 @@ public class Generator {  //Generator already has the solution, so it will remem
     			}
     			this.mat[inputMat[0]][inputMat[1]]=inputMat[2];		
     		}
-    		else
+    		else  //Gives error if the input is not entered in the specified format. or duplicates elements are entered violating Sudoku rules
+    		{
     			System.out.println("Invalid Input");
+    			mat=null;  
+    			return;   
+    		}
     	n--;
     	}
     	VerifySudoku v=new VerifySudoku();
@@ -261,6 +270,7 @@ public class Generator {  //Generator already has the solution, so it will remem
     	{
     		System.out.println("Half-Sudoku is valid.\n\n");
     		new Grid(mat,N);
+    		System.out.println();
     	}
     	else
     	{

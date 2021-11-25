@@ -1,4 +1,5 @@
 //Check if the whole Sudoku is Valid 
+//Check basic 3 rules of Sudoku, easy code
 public class VerifySudoku {
 	int mat[][];
 	int order;

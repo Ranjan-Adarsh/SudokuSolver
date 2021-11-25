@@ -1,6 +1,5 @@
 //This will receive the Sudoku as an input and make a Sudoku like Grid Everytime.
-//Better will be to replace 0 with dots in this.
-//Fix the indentation such that it works for any grid.This doesn't works for two digit number cause they have discrepency.
+//This is for the console representation of the grid
 public class Grid {
 	private int mat[][];
 	private int N;
